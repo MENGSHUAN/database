@@ -5,51 +5,47 @@ include_once('html.php');
 include_once('html_utility.php');
 session_start();
 
-	if(isset($_SESSION["student_id"])) {
-		$MyHead=$_SESSION["student_id"];	
+if(isset($_SESSION["student_id"])) {
+	$MyHead=$_SESSION["student_id"];	
 
-		$sql = "select total_credits from student where student_id = \"$MyHead\""; 
-		$result = mysqli_query($conn, $sql) or die('MySQL query error : select total_creedits ');	
-		$row = mysqli_fetch_array($result);
+	//select total_credits
+	$sql = "select total_credits from student where student_id = \"$MyHead\""; 
+	$result = mysqli_query($conn, $sql) or die('MySQL query error : select total_creedits ');	
+	$row = mysqli_fetch_array($result);
+	$total_credits = $row['total_credits'];
+
+	$over_selected = 0;
 	
-		
-		$total_credits = $row['total_credits'];
+	if ( (30 - $total_credits) >= 3) { 
+		$sql = "select course_id, course_name, department, grade, credits, max_people, current_people, category 
+			from course
+			where current_people < max_people
+			and (course_id ) not in (select course_id from select_course 
+					where student_id = (select student_id from student
+					where student_id = \"$MyHead\" ))
+			and (time_slot) not in(select time_slot from course
+					where course_id in (select course_id
+										from select_course
+										where student_id = \"$MyHead\"))";		
+	} elseif ((30 - $total_credits) == 2) {
+		$sql = "select course_id, course_name, department, grade, credits, max_people, current_people, category 
+			from course
+			where (current_people < max_people and credits = 2)
+			and (course_id ) not in (select course_id from select_course 
+					where student_id = (select student_id from student
+					where student_id = \"$MyHead\" ))
+			and (time_slot) not in(select time_slot from course
+					where course_id in (select course_id
+										from select_course
+										where student_id = \"$MyHead\"))";		
+	} else {
+		$over_selected = 1;				
+	}
 
-		$over_selected = 0;
-		
-		if ( (30 - $total_credits) >= 3) { 
-			$sql = "select course_id, course_name, department, grade, credits, max_people, current_people, category 
-				from course
-				where current_people < max_people
-				and (course_id ) not in (select course_id from select_course 
-				     where student_id = (select student_id from student
-			         where student_id = \"$MyHead\" ))
-				and (time_slot) not in(select time_slot from course
-			         where course_id in (select course_id
-					                        from select_course
-					                        where student_id = \"$MyHead\"))";		
-		
-		} elseif ((30 - $total_credits) == 2) {
-			$sql = "select course_id, course_name, department, grade, credits, max_people, current_people, category 
-				from course
-				where (current_people < max_people and credits = 2)
-				and (course_id ) not in (select course_id from select_course 
-				     where student_id = (select student_id from student
-			         where student_id = \"$MyHead\" ))
-				and (time_slot) not in(select time_slot from course
-			         where course_id in (select course_id
-					                        from select_course
-					                        where student_id = \"$MyHead\"))";		
 
-		} else {
-			$over_selected = 1;				
+	$result = mysqli_query($conn, $sql) or die('MySQL query error');
 	
-		}
-
-		
-		$result = mysqli_query($conn, $sql) or die('MySQL query error');
-	
-		html_start_box('****  Courses  ****  ', '100%', '   ', '5', 'left', '   ');
+	html_start_box('******  我的可選課程列表  ******  ', '100%', '   ', '5', 'left', '   ');
 
 	$display_text = array(
 		array('display' => 'course_id',             'align' => 'left'),
@@ -62,39 +58,35 @@ session_start();
 		array('display' => 'Current People',   'align' => 'right'),
 		array('display' => 'Category',   'align' => 'right'),		
 		array('display' => 'Action',   'align' => 'left'),
-		
 	);
 
 	if ($over_selected == 1) {
 
-			echo "Can not select any more !!";
+			echo "已達到學分上限，不能再加選囉 !!";
+
 	} else {
 
 		html_header($display_text, 2, false);
 
-
 		while($row = mysqli_fetch_array($result)){
-	//		print $row['student_id']. "---" . $row['name'] .  "---"  . $row['department']. "<p>";
+			//print $row['student_id']. "---" . $row['name'] .  "---"  . $row['department']. "<p>";
 			form_selectable_cell($row['course_id'] , $row['course_id']);
-//			form_selectable_cell($row['time_slot'], $row['time_slot']);
+			//form_selectable_cell($row['time_slot'], $row['time_slot']);
 			form_selectable_cell($row['course_name'], $row['course_name']);			
 			form_selectable_cell($row['department'], $row['department']);
 			form_selectable_cell($row['grade'], $row['grade']);			
 			form_selectable_cell($row['credits'], $row['credits']);	
 			form_selectable_cell($row['max_people'], $row['max_people']);				
-			
 			form_selectable_cell($row['current_people'], $row['current_people']);	
-			form_selectable_cell(($row['category'] == 'Required' ? "必修" : "選修"), $row['category']);					form_selectable_cell(filter_value("Add", "", 'add.php?action=add&id=' . $row['course_id'] . '&student_id=' . $MyHead . '&credits=' . $row['credits']), "Add");			
-//			form_selectable_cell(filter_value("Delete", "", '.delete.php?action=delete&id=' . $row['student_id'] ), "Delete");			
+			form_selectable_cell(($row['category'] == 'Required' ? "必修" : "選修"), $row['category']);					
+			form_selectable_cell(filter_value("Add", "", 'add.php?action=add&id=' . $row['course_id'] . '&student_id=' . $MyHead . '&credits=' . $row['credits']), "Add");			
+			//form_selectable_cell(filter_value("Delete", "", '.delete.php?action=delete&id=' . $row['student_id'] ), "Delete");			
 
 			form_end_row();
-			
 		}
-	
-
-
 		html_end_box(false);
 	}	
 
-	}
+
+}
 ?>
