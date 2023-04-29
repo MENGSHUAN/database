@@ -50,10 +50,7 @@ switch (get_request_var('action')) {
 
 		echo "已退選課程 : " .  $course_name . "  " . " course_id : " . $id;
 
-
-
 		//echo "select course id = $id deleted  ";
-
 		
 		break;
 }

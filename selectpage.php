@@ -16,6 +16,7 @@ if(isset($_SESSION["student_id"])) {
 
 	$over_selected = 0;
 	
+	//處理加選時的boundary問題
 	if ( (30 - $total_credits) >= 3) { 
 		$sql = "select course_id, course_name, department, grade, credits, max_people, current_people, category 
 			from course
@@ -43,10 +44,10 @@ if(isset($_SESSION["student_id"])) {
 	}
 
 
-	$result = mysqli_query($conn, $sql) or die('MySQL query error');
-	
-	html_start_box('******  我的可選課程列表  ******  ', '100%', '   ', '5', 'left', '   ');
 
+	//印出我的可選課程列表
+	$result = mysqli_query($conn, $sql) or die('MySQL query error');
+	html_start_box('******  我的可選課程列表  ******  ', '100%', '   ', '5', 'left', '   ');
 	$display_text = array(
 		array('display' => 'course_id',             'align' => 'left'),
 		array('display' => 'Course Name',         'align' => 'left'),
@@ -69,9 +70,7 @@ if(isset($_SESSION["student_id"])) {
 		html_header($display_text, 2, false);
 
 		while($row = mysqli_fetch_array($result)){
-			//print $row['student_id']. "---" . $row['name'] .  "---"  . $row['department']. "<p>";
 			form_selectable_cell($row['course_id'] , $row['course_id']);
-			//form_selectable_cell($row['time_slot'], $row['time_slot']);
 			form_selectable_cell($row['course_name'], $row['course_name']);			
 			form_selectable_cell($row['department'], $row['department']);
 			form_selectable_cell($row['grade'], $row['grade']);			
@@ -79,14 +78,16 @@ if(isset($_SESSION["student_id"])) {
 			form_selectable_cell($row['max_people'], $row['max_people']);				
 			form_selectable_cell($row['current_people'], $row['current_people']);	
 			form_selectable_cell(($row['category'] == 'Required' ? "必修" : "選修"), $row['category']);					
-			form_selectable_cell(filter_value("Add", "", 'add.php?action=add&id=' . $row['course_id'] . '&student_id=' . $MyHead . '&credits=' . $row['credits']), "Add");			
-			//form_selectable_cell(filter_value("Delete", "", '.delete.php?action=delete&id=' . $row['student_id'] ), "Delete");			
-
+			form_selectable_cell(filter_value("Add", "", 'add.php?action=add&id=' . $row['course_id'] . '&student_id=' . $MyHead . '&credits=' . $row['credits']), "Add");						
 			form_end_row();
 		}
 		html_end_box(false);
 	}	
 
-
 }
+?>
+
+
+<?php
+$conn->close();
 ?>
