@@ -15,7 +15,7 @@ switch (get_request_var('action')) {
 		$id = get_request_var('id');
 
 		//delete selected course_id from course table
-		$sql = "delete from select_course where student_id = \"$student_id\" and course_id = \"$id\""; 
+		$sql = "delete from selected_course where student_id = \"$student_id\" and course_id = \"$id\""; 
 		$result = mysqli_query($conn, $sql) or die('MySQL query error');	
 		//echo $sql;
 

@@ -17,7 +17,7 @@ switch (get_request_var('action')) {
 		$id = get_request_var('id');
 
 		// add selected course_id to course table 	
-		$sql = "insert into select_course (student_id,course_id) values(\"$student_id\", \"$id\")"; 
+		$sql = "insert into selected_course (student_id,course_id) values(\"$student_id\", \"$id\")"; 
 		$result = mysqli_query($conn, $sql) or die('MySQL query error : insert select course');	
 		// echo $sql;
 

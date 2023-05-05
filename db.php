@@ -5,9 +5,9 @@
 //先設定資料庫資訊，主機通常都用本機
 $host = 'localhost';
 //以root管理者帳號進入資料庫
-$dbuser = 'root';
+$dbuser = 'hj';
 //root的資料庫密碼
-$dbpw = '12345678';
+$dbpw = 'test1234';
 //登入後要使用的資料庫
 $dbname = 'testdb';
 

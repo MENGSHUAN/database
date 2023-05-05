@@ -14,21 +14,24 @@ if(isset($_SESSION["student_id"])) {
 	//Student Selected Courses
 	$sql = "select course_id, course_name, department, grade, credits, category
 			from course 
-			where course_id in (select course_id from select_course
+			where course_id in (select course_id from selected_course
 				where student_id = \"$student_id\")";
 
 	//印出我的已選課程列表			
 	$result = mysqli_query($conn, $sql) or die('MySQL query error');
 	html_start_box('*****  我的已選課程列表 ******  ', '50%', '   ', '5', 'left', '   ');
+
 	$display_text = array(
 		array('display' => 'course_id',             'align' => 'left'),
 		array('display' => 'Course Name',         'align' => 'left'),
-		array('display' => 'Department',       'align' => 'left'),
+		array('display' => 'Department',     'align' => 'left'),
 		array('display' => 'Grade',     'align' => 'right'),
 		array('display' => 'Credits', 'align' => 'right'),
 		array('display' => 'Category', 'align' => 'right'),		
 	);
 	html_header($display_text, 2, false);
+
+
 
 	while($row = mysqli_fetch_array($result)){
 
@@ -59,12 +62,12 @@ if(isset($_SESSION["student_id"])) {
 	if ( ($total_credits - 9) >= 3) { 
 		$sql = "select course_id, course_name, department, grade, credits
 				from course 
-				where course_id in (select course_id from select_course
+				where course_id in (select course_id from selected_course
 					where student_id = \"$student_id\") and category = \"Elective\"";	
 	} elseif (($total_credits - 9) == 2) {
 		$sql = "select course_id, course_name, department, grade, credits
 				from course 
-				where course_id in (select course_id from select_course
+				where course_id in (select course_id from selected_course
 					where student_id = \"$student_id\") and category = \"Elective\" and credits = 2";		
 	} else { //(total_credits - 9) = 0 or 1
 		$under_selected = 1; 			

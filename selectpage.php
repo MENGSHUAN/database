@@ -13,6 +13,7 @@ if(isset($_SESSION["student_id"])) {
 	$result = mysqli_query($conn, $sql) or die('MySQL query error : select total_creedits ');	
 	$row = mysqli_fetch_array($result);
 	$total_credits = $row['total_credits'];
+	
 
 	$over_selected = 0;
 	
@@ -21,23 +22,23 @@ if(isset($_SESSION["student_id"])) {
 		$sql = "select course_id, course_name, department, grade, credits, max_people, current_people, category 
 			from course
 			where current_people < max_people
-			and (course_id ) not in (select course_id from select_course 
+			and (course_id ) not in (select course_id from selected_course 
 					where student_id = (select student_id from student
 					where student_id = \"$MyHead\" ))
 			and (time_slot) not in(select time_slot from course
 					where course_id in (select course_id
-										from select_course
+										from selected_course
 										where student_id = \"$MyHead\"))";		
-	} elseif ((30 - $total_credits) == 2) {
+	} else if ((30 - $total_credits) == 2) {
 		$sql = "select course_id, course_name, department, grade, credits, max_people, current_people, category 
 			from course
 			where (current_people < max_people and credits = 2)
-			and (course_id ) not in (select course_id from select_course 
+			and (course_id ) not in (select course_id from selected_course 
 					where student_id = (select student_id from student
 					where student_id = \"$MyHead\" ))
 			and (time_slot) not in(select time_slot from course
 					where course_id in (select course_id
-										from select_course
+										from selected_course
 										where student_id = \"$MyHead\"))";		
 	} else {
 		$over_selected = 1;				

@@ -27,6 +27,7 @@ $row = mysqli_fetch_array($result);
     <li><a href="selectpage.php">選課頁面(顯示可選課程)</a></li>
     <li><a href="selectedpage.php">已選課程(顯示此學生已選課程)</a></li>
     <li><a href="week.php">我的課表</a></li>
+    <li><a href="week_color.php">我的課表2</a></li>
     <li><a href="allcourse.php">所有課程</a></li>
     <li><a href="homepage.php">學生資料</a></li>
   </ul>
@@ -36,7 +37,7 @@ $row = mysqli_fetch_array($result);
   <br>
 
   <div>
-    <p> Student's infomation : </p>
+    <h3> Student's infomation : </h3>
     <p> <?php print 'student_id: ' . $row['student_id']; ?> </p>
     <p> <?php print " name: " . $row['name']; ?> </p>
     <p> <?php print " grade: "  . $row['grade']; ?> </p>
