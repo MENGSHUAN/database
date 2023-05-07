@@ -24,7 +24,7 @@ if(isset($_SESSION["student_id"])) {
 		where current_people < max_people
 		and (course_id ) not in (select course_id from selected_course 
 				where student_id = \"$MyHead\" )
-		and (time_slot) not in (select time_slot from course
+		and (time_slot_id) not in (select time_slot_id from course
 				where course_id in (select course_id
 									from selected_course
 									where student_id = \"$MyHead\"))
@@ -42,7 +42,7 @@ if(isset($_SESSION["student_id"])) {
 			and (course_id ) not in (select course_id from selected_course 
 					where student_id = (select student_id from student
 					where student_id = \"$MyHead\" ))
-			and (time_slot) not in(select time_slot from course
+			and (time_slot_id) not in(select time_slot_id from course
 					where course_id in (select course_id
 										from selected_course
 										where student_id = \"$MyHead\"))

@@ -9,7 +9,7 @@ $student_id = $_SESSION["student_id"];
 
 //select student data
 $sql = "select student_id,name,grade,department,total_credits from student where student_id = \"$student_id\""; 
-$result = mysqli_query($conn, $sql) or die('MySQL query error : select total_creedits ');	
+$result = mysqli_query($conn, $sql) or die('MySQL query error : select student data ');	
 $row = mysqli_fetch_array($result);
 
 ?>

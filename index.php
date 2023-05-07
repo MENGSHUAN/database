@@ -295,7 +295,7 @@ session_start();
                     <form name="form2" method="post" action="check.php">
                         <div class="label">密碼</div>
                         <div class="txt">
-                            <input name="password" class="input">
+                            <input type="password" name="password" class="input">
                         </div>
                 </div>
                 <br>
