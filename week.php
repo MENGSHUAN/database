@@ -30,18 +30,18 @@ for ($i = 1; $i <= 11; $i++) {
         }        
 
 		// select course_name  	
-        $sql="select course_name, course_id, time_slot from course where course_id in (select course_id from selected_course where student_id = \"$MyHead\")";
+        $sql="select course_name, course_id, time_slot_id from course where course_id in (select course_id from selected_course where student_id = \"$MyHead\")";
  		$result = mysqli_query($conn, $sql) or die('MySQL query error : insert select course');
 		//echo $sql;
 
 		while($row = mysqli_fetch_array($result)){
         
-            $slot_id = $row['time_slot'];
+            $slot_id = $row['time_slot_id'];
 
-            $day = $time[$row['time_slot']][1];
+            $day = $time[$row['time_slot_id']][1];
             
-            $num1 = $time[$row['time_slot']][2];   
-            $num3 = $time[$row['time_slot']][3];               
+            $num1 = $time[$row['time_slot_id']][2];   
+            $num3 = $time[$row['time_slot_id']][3];               
             if($num3 - $num1 ==2){
              	$num2 = $num1 + 1;               
            	}
