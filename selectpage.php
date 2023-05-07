@@ -20,15 +20,21 @@ if(isset($_SESSION["student_id"])) {
 	//處理加選時的boundary問題
 	if ( (30 - $total_credits) >= 3) { 
 		$sql = "select course_id, course_name, department, grade, credits, max_people, current_people, category 
-			from course
-			where current_people < max_people
-			and (course_id ) not in (select course_id from selected_course 
-					where student_id = (select student_id from student
-					where student_id = \"$MyHead\" ))
-			and (time_slot) not in(select time_slot from course
-					where course_id in (select course_id
-										from selected_course
-										where student_id = \"$MyHead\"))";		
+		from course
+		where current_people < max_people
+		and (course_id ) not in (select course_id from selected_course 
+				where student_id = \"$MyHead\" )
+		and (time_slot) not in (select time_slot from course
+				where course_id in (select course_id
+									from selected_course
+									where student_id = \"$MyHead\"))
+		and (course_name) not in (SELECT course_name from course
+								 WHERE course_id in (SELECT course_id
+												   from selected_course
+												   where student_id = \"$MyHead\" ))
+		and (department) in (SELECT department from student
+							where student_id = \"$MyHead\") or
+							department = 'General Education'";		
 	} else if ((30 - $total_credits) == 2) {
 		$sql = "select course_id, course_name, department, grade, credits, max_people, current_people, category 
 			from course
@@ -39,7 +45,14 @@ if(isset($_SESSION["student_id"])) {
 			and (time_slot) not in(select time_slot from course
 					where course_id in (select course_id
 										from selected_course
-										where student_id = \"$MyHead\"))";		
+										where student_id = \"$MyHead\"))
+			and (course_name) not in (SELECT course_name from course
+										WHERE course_id in (SELECT course_id
+														  	from selected_course
+														  	where student_id = \"$MyHead\" ))
+			and (department) in (SELECT department from student
+								   where student_id = \"$MyHead\") or
+								   department = 'General Education'";	
 	} else {
 		$over_selected = 1;				
 	}

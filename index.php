@@ -31,7 +31,7 @@ session_start();
     <div class=div>
         <h1>選課系統</h1>
     </div>
-
+    
     <div class=div>
         <form name="form1" method="post" action="check.php" >
         請輸入學號: <br> <input name="MyHead">
@@ -46,9 +46,7 @@ session_start();
         <br>
         <input type="submit" value="登入">
         </form>
-    </div>
-    
-
+    </div>    
 </body>
 
 
