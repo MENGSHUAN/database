@@ -263,7 +263,7 @@ session_start();
 
 <body>
     <div class="login">
-        <img class="login_logo" src="title_img.png" width="250" heigh="100" >
+        <img class="login_logo" src="pic\title_img.png" width="250" heigh="100" >
     </div>
 
     <div class="login_content">

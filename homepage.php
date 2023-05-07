@@ -113,7 +113,7 @@ $row = mysqli_fetch_array($result);
     </div>
   </nav>
   <div class = "mid-img">
-    <img src="background_pattern.jpg" alt="fcu"></img>
+    <img src="pic\background_pattern.jpg" alt="fcu"></img>
   </div>
   <div class="card-group"> 
     <a href="selectpage.php"> 
