@@ -30,7 +30,7 @@ for ($i = 1; $i <= 11; $i++) {
         }        
 
 		// select course_name  	
-        $sql="select course_name, course_id, time_slot from course where course_id in (select course_id from select_course where student_id = \"$MyHead\")";
+        $sql="select course_name, course_id, time_slot from course where course_id in (select course_id from selected_course where student_id = \"$MyHead\")";
  		$result = mysqli_query($conn, $sql) or die('MySQL query error : insert select course');
 		//echo $sql;
 
