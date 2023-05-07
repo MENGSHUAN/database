@@ -1,4 +1,3 @@
-<a href = "index.php"> 回上頁 </a> <p>
 <?php
 //確認student_id是否正確
 
@@ -31,16 +30,19 @@ if ($results_id->num_rows > 0 && $password_result->num_rows > 0) {
 
 ?>
 
+
 <html>
 <head>
   <title>Login Page</title>
 </head>
 <body>
-
-  <p>student_id or student_password is invalid !!</p>
-
+<script>
+  window.alert("帳號/密碼輸入錯誤!");
+  window.location.href = "index.php"; 
+</script>
 </body>
 </html>
+
 
 
 <?php
