@@ -100,6 +100,9 @@ $row = mysqli_fetch_array($result);
           <li class="nav-item">
             <a class="nav-link" href="week.php">我的課表</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="password.php">修改密碼</a>
+          </li>
           
           <li class="nav-item">
             <a class="nav-link" onclick="check_alert()">登出</a>
