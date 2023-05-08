@@ -20,7 +20,7 @@ if(isset($_SESSION["student_id"])) {
 	
 	//處理加選時的boundary問題
 	if ( (30 - $total_credits) >= 3) { 
-		$sql = "select course_id, course_name, department, grade, credits, max_people, current_people, category 
+		$sql = "select course_id, course_name, department, grade, credits, max_people, current_people, category, time_slot_id 
 		from course
 		where current_people < max_people
 		and (course_id ) not in (select course_id from selected_course 
@@ -33,11 +33,11 @@ if(isset($_SESSION["student_id"])) {
 								 WHERE course_id in (SELECT course_id
 												   from selected_course
 												   where student_id = \"$MyHead\" ))
-		and (department) in (SELECT department from student
+		and ((department) in (SELECT department from student
 							where student_id = \"$MyHead\") or
-							department = 'General Education'";		
+							(department = 'General Education'))";		
 	} else if ((30 - $total_credits) == 2) {
-		$sql = "select course_id, course_name, department, grade, credits, max_people, current_people, category 
+		$sql = "select course_id, course_name, department, grade, credits, max_people, current_people, category, time_slot_id
 			from course
 			where (current_people < max_people and credits = 2)
 			and (course_id ) not in (select course_id from selected_course 
@@ -47,13 +47,13 @@ if(isset($_SESSION["student_id"])) {
 					where course_id in (select course_id
 										from selected_course
 										where student_id = \"$MyHead\"))
-			and (course_name) not in (SELECT course_name from course
-										WHERE course_id in (SELECT course_id
+			and (course_name) not in (select course_name from course
+										where course_id in (select course_id
 														  	from selected_course
 														  	where student_id = \"$MyHead\" ))
-			and (department) in (SELECT department from student
+			and ((department) in (SELECT department from student
 								   where student_id = \"$MyHead\") or
-								   department = 'General Education'";	
+								   (department = 'General Education'))";	
 	} else {
 		$over_selected = 1;				
 	}
@@ -70,9 +70,9 @@ if(isset($_SESSION["student_id"])) {
 		array('display' => 'Grade',     'align' => 'right'),
 		array('display' => 'Credits', 'align' => 'right'),
 		array('display' => 'Max People',   'align' => 'right'),
-		
 		array('display' => 'Current People',   'align' => 'right'),
-		array('display' => 'Category',   'align' => 'right'),	
+		array('display' => 'Category',   'align' => 'right'),
+		array('display' => 'time_slot_id', 'align' => 'right'),
 		//array('display' => 'Action',   'align' => 'left'),
 		//array('display' => 'Function',   'align' => 'left'),
 	);
@@ -102,6 +102,7 @@ if(isset($_SESSION["student_id"])) {
    			echo '<td style="border: 1px solid black; padding: 5px;">' . $row['current_people'] . '</td>';
    			$row['category'] == 'Required' ? "必修" : "選修";
    			echo '<td style="border: 1px solid black; padding: 5px;">' . $row['category'] . '</td>';
+			echo '<td style="border: 1px solid black; padding: 5px;">' . $row['time_slot_id'] . '</td>';
 
 			//echo '<td style="border: 1px solid black; padding: 5px;">';
    			form_selectable_cell(filter_value("Add", "", 'add.php?action=add&id=' . $row['course_id'] . '&student_id=' . $MyHead . '&credits=' . $row['credits']), "Add");
