@@ -4,9 +4,10 @@ include_once('db.php');
 include_once('html.php');
 include_once('html_utility.php');
 session_start();
+$MyHead=$_SESSION["student_id"];
 
 if(isset($_SESSION["student_id"])) {
-	$MyHead=$_SESSION["student_id"];	
+		
 
 	//select total_credits
 	$sql = "select total_credits from student where student_id = \"$MyHead\""; 
@@ -71,8 +72,9 @@ if(isset($_SESSION["student_id"])) {
 		array('display' => 'Max People',   'align' => 'right'),
 		
 		array('display' => 'Current People',   'align' => 'right'),
-		array('display' => 'Category',   'align' => 'right'),		
-		array('display' => 'Action',   'align' => 'left'),
+		array('display' => 'Category',   'align' => 'right'),	
+		//array('display' => 'Action',   'align' => 'left'),
+		//array('display' => 'Function',   'align' => 'left'),
 	);
 
 	if ($over_selected == 1) {
@@ -80,19 +82,34 @@ if(isset($_SESSION["student_id"])) {
 			echo "已達到學分上限，不能再加選囉 !!";
 
 	} else {
+		echo '<table style="border-collapse: collapse; border: 1px solid black;">';
+  		echo '<tr>';
 
-		html_header($display_text, 2, false);
+  		foreach ($display_text as $column) {
+   			echo '<th style="border: 1px solid black; padding: 5px;">' . $column['display'] . '</th>';
+  		}
+  		echo '</tr>';
+		//html_header($display_text, 2, false);
 
 		while($row = mysqli_fetch_array($result)){
-			form_selectable_cell($row['course_id'] , $row['course_id']);
-			form_selectable_cell($row['course_name'], $row['course_name']);			
-			form_selectable_cell($row['department'], $row['department']);
-			form_selectable_cell($row['grade'], $row['grade']);			
-			form_selectable_cell($row['credits'], $row['credits']);	
-			form_selectable_cell($row['max_people'], $row['max_people']);				
-			form_selectable_cell($row['current_people'], $row['current_people']);	
-			form_selectable_cell(($row['category'] == 'Required' ? "必修" : "選修"), $row['category']);					
-			form_selectable_cell(filter_value("Add", "", 'add.php?action=add&id=' . $row['course_id'] . '&student_id=' . $MyHead . '&credits=' . $row['credits']), "Add");						
+			echo '<tr>';
+   			echo '<td style="border: 1px solid black; padding: 5px;">' . $row['course_id'] . '</td>';
+   			echo '<td style="border: 1px solid black; padding: 5px;">' . $row['course_name'] . '</td>';
+   			echo '<td style="border: 1px solid black; padding: 5px; width: 130px;">' . $row['department'] . '</td>';
+   			echo '<td style="border: 1px solid black; padding: 5px;">' . $row['grade'] . '</td>';
+   			echo '<td style="border: 1px solid black; padding: 5px;">' . $row['credits'] . '</td>';
+   			echo '<td style="border: 1px solid black; padding: 5px;">' . $row['max_people'] . '</td>';
+   			echo '<td style="border: 1px solid black; padding: 5px;">' . $row['current_people'] . '</td>';
+   			$row['category'] == 'Required' ? "必修" : "選修";
+   			echo '<td style="border: 1px solid black; padding: 5px;">' . $row['category'] . '</td>';
+
+			//echo '<td style="border: 1px solid black; padding: 5px;">';
+   			form_selectable_cell(filter_value("Add", "", 'add.php?action=add&id=' . $row['course_id'] . '&student_id=' . $MyHead . '&credits=' . $row['credits']), "Add");
+			echo '<br>';
+		    form_selectable_cell(filter_value("Follow", "", 'follow.php?action=follow&id=' . $row['course_id'] . '&student_id=' . $MyHead . '&credits=' . $row['credits']), "Follow");
+			//echo '</td>';
+
+			echo '</tr>';		
 			form_end_row();
 		}
 		html_end_box(false);

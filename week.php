@@ -58,7 +58,8 @@ for ($i = 1; $i <= 11; $i++) {
         }
 
 		//print_r($table);
-	
+
+		$result = mysqli_query($conn, $sql) or die('MySQL query error');
 		html_start_box('******  我的課表  ******  ', '100%', '   ', '5', 'left', '   ');
 
 		$display_text = array(
@@ -69,17 +70,24 @@ for ($i = 1; $i <= 11; $i++) {
 			array('display' => 'Thursday', 'align' => 'left'),
 			array('display' => 'Friday  ', 'align' => 'left'),
 		);
-		html_header($display_text, 2, false);
+		//html_header($display_text, 2, false);
+		echo '<table style="border-collapse: collapse; border: 1px solid black;">';
+  		echo '<tr>';
+
+  		foreach ($display_text as $column) {
+   			echo '<th style="border: 1px solid black; padding: 5px;">' . $column['display'] . '</th>';
+  		}
+  		echo '</tr>';
+
 
 		for ($i = 1; $i <= 11; $i++) {
 
-			form_selectable_cell($i , $i, 20, "color: blue");
-
-			form_selectable_cell($table[$i][1], $table[$i][1], 0, "padding-top:20px");
-			form_selectable_cell($table[$i][2], $table[$i][2], 0, "padding-top:20px");
-			form_selectable_cell($table[$i][3], $table[$i][3], 0, "padding-top:20px");			
-			form_selectable_cell($table[$i][4], $table[$i][4], 0, "padding-top:20px");
-			form_selectable_cell($table[$i][5], $table[$i][5], 0, "padding-top:20px");			
+			echo '<td style="border: 1px solid black; padding: 5px; width: 20px; height: 50px; color: blue">' .$i. '</td>';
+			echo '<td style="border: 1px solid black; padding: 5px; width: 120px; height: 50px">' .$table[$i][1]. '</td>';
+			echo '<td style="border: 1px solid black; padding: 5px; width: 120px; height: 50px">' .$table[$i][2]. '</td>';
+			echo '<td style="border: 1px solid black; padding: 5px; width: 120px; height: 50px">' .$table[$i][3]. '</td>';
+			echo '<td style="border: 1px solid black; padding: 5px; width: 120px; height: 50px">' .$table[$i][4]. '</td>';
+			echo '<td style="border: 1px solid black; padding: 5px; width: 120px; height: 50px">' .$table[$i][5]. '</td>';
 			
 			form_end_row();
 		}

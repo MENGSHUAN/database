@@ -25,19 +25,33 @@ include_once('html_utility.php');
 		array('display' => 'Category',     'align' => 'right'),		
 	);
 
-    html_header($display_text, 2, false);
+	echo '<table style="border-collapse: collapse; border: 1px solid black;">';
+  		echo '<tr>';
+
+  		foreach ($display_text as $column) {
+   			echo '<th style="border: 1px solid black; padding: 5px;">' . $column['display'] . '</th>';
+  		}
+  		echo '</tr>';
+
+    //html_header($display_text, 2, false);
 
 		while($row = mysqli_fetch_array($result)){
-			form_selectable_cell($row['course_id'] , $row['course_id']);
-			form_selectable_cell($row['course_name'], $row['course_name']);			
-			form_selectable_cell($row['department'], $row['department']);
-			form_selectable_cell($row['grade'], $row['grade']);			
-			form_selectable_cell($row['credits'], $row['credits']);	
-			form_selectable_cell($row['max_people'], $row['max_people']);				
-			form_selectable_cell($row['current_people'], $row['current_people']);	
-			form_selectable_cell(($row['category'] == 'Required' ? "必修" : "選修"), $row['category']);									
-			form_end_row();
+
+			echo '<tr>';
+   			echo '<td style="border: 1px solid black; padding: 5px;">' . $row['course_id'] . '</td>';
+   			echo '<td style="border: 1px solid black; padding: 5px;">' . $row['course_name'] . '</td>';
+   			echo '<td style="border: 1px solid black; padding: 5px;">' . $row['department'] . '</td>';
+   			echo '<td style="border: 1px solid black; padding: 5px;">' . $row['grade'] . '</td>';
+   			echo '<td style="border: 1px solid black; padding: 5px;">' . $row['credits'] . '</td>';
+			echo '<td style="border: 1px solid black; padding: 5px;">' . $row['max_people'] . '</td>';
+			echo '<td style="border: 1px solid black; padding: 5px;">' . $row['current_people'] . '</td>';
+			$row['category'] == 'Required' ? "必修" : "選修";
+			echo '<td style="border: 1px solid black; padding: 5px;">' . $row['category'] . '</td>';
+   			echo '</tr>';
+
+			
 		}
+		echo '</table>';
 		html_end_box(false);
 
 ?>

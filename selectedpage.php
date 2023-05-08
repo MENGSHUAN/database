@@ -29,20 +29,31 @@ if(isset($_SESSION["student_id"])) {
 		array('display' => 'Credits', 'align' => 'right'),
 		array('display' => 'Category', 'align' => 'right'),		
 	);
-	html_header($display_text, 2, false);
+
+	echo '<table style="border-collapse: collapse; border: 1px solid black;">';
+ 	echo '<tr>';
+
+ 	foreach ($display_text as $column) {
+  		echo '<th style="border: 1px solid black; padding: 5px;">' . $column['display'] . '</th>';
+ 	}
+ 	echo '</tr>';
+	//html_header($display_text, 2, false);
 
 
 
 	while($row = mysqli_fetch_array($result)){
 
-		form_selectable_cell($row['course_id'] , $row['course_id']);
-		form_selectable_cell($row['course_name'], $row['course_name']);
-		form_selectable_cell($row['department'], $row['department']);			
-		form_selectable_cell($row['grade'], $row['grade']);
-		form_selectable_cell($row['credits'], $row['credits']);			
-		form_selectable_cell(($row['category'] == 'Required' ? "必修" : "選修"), $row['category']);				
-		form_end_row();
+		echo '<tr>';
+   		echo '<td style="border: 1px solid black; padding: 5px;">' . $row['course_id'] . '</td>';
+   		echo '<td style="border: 1px solid black; padding: 5px;">' . $row['course_name'] . '</td>';
+   		echo '<td style="border: 1px solid black; padding: 5px;">' . $row['department'] . '</td>';
+   		echo '<td style="border: 1px solid black; padding: 5px;">' . $row['grade'] . '</td>';
+   		echo '<td style="border: 1px solid black; padding: 5px;">' . $row['credits'] . '</td>';
+		$row['category'] == 'Required' ? "必修" : "選修";
+		echo '<td style="border: 1px solid black; padding: 5px;">' . $row['category'] . '</td>';
+   		echo '</tr>';
 	}
+	echo '</table>';
 	html_end_box(false);
 
 
@@ -89,17 +100,27 @@ if(isset($_SESSION["student_id"])) {
 	if ($under_selected == 1) {
 		echo "已達到學分下限，不能再退選囉 !!";
 	} else {
-		html_header($display_text, 2, false);
+
+		echo '<table style="border-collapse: collapse; border: 1px solid black;">';
+  		echo '<tr>';
+
+  		foreach ($display_text as $column) {
+   			echo '<th style="border: 1px solid black; padding: 5px;">' . $column['display'] . '</th>';
+  		}
+  		echo '</tr>';
+		//html_header($display_text, 2, false);
 		while($row = mysqli_fetch_array($result)){
 
-			form_selectable_cell($row['course_id'] , $row['course_id']);
-			form_selectable_cell($row['course_name'], $row['course_name']);
-			form_selectable_cell($row['department'], $row['department']);			
-			form_selectable_cell($row['grade'], $row['grade'], '', 'text-align:right');
-			form_selectable_cell($row['credits'], $row['credits'], '', 'text-align:right');					
-			form_selectable_cell(filter_value("Delete", "", 'delete.php?action=delete&id=' . $row['course_id'] . '&student_id=' . $student_id), "Delete");			
-			form_end_row();
+			echo '<tr>';
+   			echo '<td style="border: 1px solid black; padding: 5px;">' . $row['course_id'] . '</td>';
+   			echo '<td style="border: 1px solid black; padding: 5px;">' . $row['course_name'] . '</td>';
+   			echo '<td style="border: 1px solid black; padding: 5px;">' . $row['department'] . '</td>';
+   			echo '<td style="border: 1px solid black; padding: 5px;">' . $row['grade'] . '</td>';
+   			echo '<td style="border: 1px solid black; padding: 5px;">' . $row['credits'] . '</td>';
+   			form_selectable_cell(filter_value("Delete", "", 'delete.php?action=delete&id=' . $row['course_id'] . '&student_id=' . $student_id), "Delete");
+   			echo '</tr>';
 		}
+		echo '</table>';
 		html_end_box(false);
 	}
 
