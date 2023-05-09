@@ -1,13 +1,15 @@
-<a href = "homepage.php"> 回上頁(Homepage) </a> <p>
+<a href = "homepage.php"> 回上頁(Homepage) </a>
 <?php
 include_once('db.php');
 include_once('html.php');
 include_once('html_utility.php');
+
 @header("Content-type:text/html;charset=utf-8");
 
 session_start();
 
 if(isset($_SESSION["student_id"])) {
+	
 	$student_id =$_SESSION["student_id"];	
 
 
@@ -29,7 +31,6 @@ if(isset($_SESSION["student_id"])) {
 		array('display' => 'Credits', 'align' => 'right'),
 		array('display' => 'Category', 'align' => 'right'),		
 	);
-
 	echo '<table style="border-collapse: collapse; border: 1px solid black;">';
  	echo '<tr>';
 
@@ -39,10 +40,7 @@ if(isset($_SESSION["student_id"])) {
  	echo '</tr>';
 	//html_header($display_text, 2, false);
 
-
-
 	while($row = mysqli_fetch_array($result)){
-
 		echo '<tr>';
    		echo '<td style="border: 1px solid black; padding: 5px;">' . $row['course_id'] . '</td>';
    		echo '<td style="border: 1px solid black; padding: 5px;">' . $row['course_name'] . '</td>';

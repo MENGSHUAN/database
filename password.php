@@ -10,10 +10,9 @@ session_start();
 $student_id = $_SESSION["student_id"];
 
 //select student data
-$sql = "select student_id,name,grade,department,total_credits from student where student_id = \"$student_id\""; 
-$result = mysqli_query($conn, $sql) or die('MySQL query error : select total_creedits ');	
+$sql = "select student_id, name, grade, department, total_credits from student where student_id = \"$student_id\""; 
+$result = mysqli_query($conn, $sql) or die('MySQL query error : select student data ');	
 $row = mysqli_fetch_array($result);
-
 
 ?>
 
@@ -23,9 +22,7 @@ $row = mysqli_fetch_array($result);
 <title>修改密碼</title>
 </head>
 <body>
-
   <a href = "homepage.php"> 回上頁(homepage) </a> <p>
-
   <br>
   <div>
     <h3> Student's infomation : </h3>
@@ -43,13 +40,10 @@ $row = mysqli_fetch_array($result);
   <br>
   <br>
   <form name="form1" method="post" action="modify_password.php" >請輸入新密碼: <br> <input name="MyPassword">
-        <br>
-        <br>
-        <input type="submit" value="提交">
+    <br>
+    <br>
+    <input type="submit" value="提交">
   </form>
-
-
-
 </body>
 </html>
 

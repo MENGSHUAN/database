@@ -14,6 +14,7 @@ switch (get_request_var('action')) {
 		$credits = get_request_var('credits');		
 		//echo $student_id;
 		
+		//course id
 		$id = get_request_var('id');
 
 		// add selected course_id to course table 	

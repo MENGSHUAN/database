@@ -111,7 +111,7 @@ $row = mysqli_fetch_array($result);
             <a class="nav-link" href="selectedpage.php">已選課程</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="week.php">我的課表</a>
+            <a class="nav-link" href="week_color.php">我的課表</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="followedpage.php">關注課程</a>

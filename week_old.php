@@ -22,12 +22,11 @@ if(isset($_SESSION["student_id"])) {
 	//select data from time_slot
 	$sql="select time_slot_id, time_day, start_time, end_time  from time_slot";             
 	$result = mysqli_query($conn, $sql) or die('MySQL query error : ');	
+	
 
-	//類似結構
 	while($row = mysqli_fetch_array($result)){
 	
 		$i = $row['time_slot_id'];
-		
 		$time[$i][0] =  $i;
 		$time[$i][1] =  $row['time_day'];    
 		$time[$i][2] =  $row['start_time'];    
@@ -35,14 +34,15 @@ if(isset($_SESSION["student_id"])) {
 
 	}        
 
-	// select course data  	
+	// select course_name  	
 	$sql="select course_name, course_id, time_slot_id from course where course_id in (select course_id from selected_course where student_id = \"$MyHead\")";
 	$result = mysqli_query($conn, $sql) or die('MySQL query error : insert select course');
-	
+	//echo $sql;
 
 	while($row = mysqli_fetch_array($result)){
 	
 		$slot_id = $row['time_slot_id'];
+
 		$day = $time[$row['time_slot_id']][1];		// day
 		$num1 = $time[$row['time_slot_id']][2];   	// start_time
 		$num3 = $time[$row['time_slot_id']][3];     // end_time  

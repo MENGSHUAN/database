@@ -18,25 +18,20 @@ $MyPassword = $_POST["MyPassword"];
 $sql = "update student set student_password = $MyPassword where student_id = \"$Myid\"";
 $result = mysqli_query($conn, $sql) or die('MySQL query error : update student_password error ');	
 
-
-
 ?>
-
 
 <html>
 <head>
   <title></title>
 </head>
 <body>
-<a href = "password.php"> 回上頁 </a> <p>
-<script>
-    window.alert("您的密碼已成功修改");
-    window.location.href = "password.php"; 
-</script>
+  <a href = "password.php"> 回上頁 </a> <p>
+  <script>
+      window.alert("您的密碼已成功修改");
+      window.location.href = "password.php"; 
+  </script>
 </body>
 </html>
-
-
 
 <?php
 $conn->close();
