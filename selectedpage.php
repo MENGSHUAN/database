@@ -12,28 +12,25 @@ if(isset($_SESSION["student_id"])) {
 	
 	$student_id =$_SESSION["student_id"];	
 
-
-	//Student Selected Courses
+	//Student selected courses
 	$sql = "select course_id, course_name, department, grade, credits, category
 			from course 
 			where course_id in (select course_id from selected_course
 				where student_id = \"$student_id\")";
-
-	//印出我的已選課程列表			
 	$result = mysqli_query($conn, $sql) or die('MySQL query error');
-	html_start_box('*****  我的已選課程列表 ******  ', '50%', '   ', '5', 'left', '   ');
 
+	//印出我的已選課程列表
+	html_start_box('*****  我的已選課程列表 ******  ', '50%', '   ', '5', 'left', '   ');
 	$display_text = array(
-		array('display' => 'course_id',             'align' => 'left'),
-		array('display' => 'Course Name',         'align' => 'left'),
-		array('display' => 'Department',     'align' => 'left'),
-		array('display' => 'Grade',     'align' => 'right'),
-		array('display' => 'Credits', 'align' => 'right'),
-		array('display' => 'Category', 'align' => 'right'),		
+		array('display' => 'course_id',     'align' => 'left'),
+		array('display' => 'Course Name',   'align' => 'left'),
+		array('display' => 'Department',    'align' => 'left'),
+		array('display' => 'Grade',     	'align' => 'right'),
+		array('display' => 'Credits', 		'align' => 'right'),
+		array('display' => 'Category', 		'align' => 'right'),		
 	);
 	echo '<table style="border-collapse: collapse; border: 1px solid black;">';
  	echo '<tr>';
-
  	foreach ($display_text as $column) {
   		echo '<th style="border: 1px solid black; padding: 5px;">' . $column['display'] . '</th>';
  	}
@@ -58,14 +55,13 @@ if(isset($_SESSION["student_id"])) {
 
 	//Student Could Withdraw Courses
 
-	//select total_credits
+	//select total_credits from student
 	$sql = "select total_credits from student where student_id = \"$student_id\""; 
 	$result = mysqli_query($conn, $sql) or die('MySQL query error : select total_creedits ');	
 	$row = mysqli_fetch_array($result);
 	$total_credits = $row['total_credits'];
 
 	$under_selected = 0;
-
 
 	//處理退選時的boundary問題
 	if ( ($total_credits - 9) >= 3) { 
